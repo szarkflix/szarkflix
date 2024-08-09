@@ -1,0 +1,242 @@
+<html><head><base href="https://szarkflix.com/%20add%20an%20x%20to%20the%20game%20to%20close%20it">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SzarkFlix - About Us</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .topbar {
+    background-color: #8B0000;
+    padding: 5px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  .topbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #E50914;
+  }
+  nav {
+    display: flex;
+  }
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 1em;
+  }
+  .about-us {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+  .about-us h1 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #E50914;
+  }
+  .about-us p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  footer {
+    background-color: #000;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+  }
+  #whack-a-mole {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+  }
+  .mole-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 600px;
+    margin: 50px auto;
+  }
+  .mole-hole {
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: #8B0000;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+  }
+  .mole {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #E50914;
+    border-radius: 50%;
+    transition: bottom 0.1s;
+    cursor: pointer;
+  }
+  .mole.up {
+    bottom: 0;
+  }
+  #score {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 20px;
+    color: #E50914;
+  }
+  #close-game {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2em;
+    color: #E50914;
+    cursor: pointer;
+    z-index: 2001;
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar-content">
+      <div class="logo">SzarkFlix</div>
+      <nav>
+        <a href="#" onclick="showSection('movies')">Movies</a>
+        <a href="#" onclick="showSection('about')">About Us</a>
+      </nav>
+    </div>
+  </div>
+
+  <main>
+    <section id="about-us" class="about-us">
+      <div class="container">
+        <h1>About SzarkFlix</h1>
+        <p>SzarkFlix is a streaming service offering users access to a wide range of popular and award-winning movies, series, documentaries, and other programs through thousands of internet-connected devices. There's always something new to discover: new titles are constantly being added to the SzarkFlix catalog!</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 SzarkFlix. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div id="whack-a-mole">
+    <div id="close-game">&times;</div>
+    <div id="score">Score: 0</div>
+    <div class="mole-grid">
+      <div class="mole-hole"><div class="mole"></div></div>
+      <div class="mole-hole"><div class="mole"></div></div>
+      <div class="mole-hole"><div class="mole"></div></div>
+      <div class="mole-hole"><div class="mole"></div></div>
+      <div class="mole-hole"><div class="mole"></div></div>
+      <div class="mole-hole"><div class="mole"></div></div>
+      <div class="mole-hole"><div class="mole"></div></div>
+      <div class="mole-hole"><div class="mole"></div></div>
+      <div class="mole-hole"><div class="mole"></div></div>
+    </div>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      const mainContent = document.getElementById('main-content');
+      const aboutUs = document.getElementById('about-us');
+
+      if (sectionId === 'about') {
+        if (mainContent) mainContent.style.display = 'none';
+        aboutUs.style.display = 'block';
+      } else {
+        if (mainContent) mainContent.style.display = 'block';
+        aboutUs.style.display = 'none';
+      }
+    }
+
+    // Easter Egg: Whack-a-Mole game
+    let backspaceHoldStart = null;
+    let score = 0;
+    const whackAMole = document.getElementById('whack-a-mole');
+    const scoreDisplay = document.getElementById('score');
+    const moles = document.querySelectorAll('.mole');
+    const closeGame = document.getElementById('close-game');
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace') {
+        if (!backspaceHoldStart) {
+          backspaceHoldStart = Date.now();
+        } else if (Date.now() - backspaceHoldStart >= 3000) {
+          startWhackAMole();
+        }
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'Backspace') {
+        backspaceHoldStart = null;
+      }
+    });
+
+    function startWhackAMole() {
+      whackAMole.style.display = 'block';
+      score = 0;
+      updateScore();
+      gameLoop();
+    }
+
+    function gameLoop() {
+      const randomMole = moles[Math.floor(Math.random() * moles.length)];
+      randomMole.classList.add('up');
+      
+      setTimeout(() => {
+        randomMole.classList.remove('up');
+        gameLoop();
+      }, Math.random() * 1000 + 500);
+    }
+
+    moles.forEach(mole => {
+      mole.addEventListener('click', () => {
+        if (mole.classList.contains('up')) {
+          score++;
+          updateScore();
+          mole.classList.remove('up');
+        }
+      });
+    });
+
+    function updateScore() {
+      scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    closeGame.addEventListener('click', () => {
+      whackAMole.style.display = 'none';
+    });
+
+    // Show the About Us section on page load
+    showSection('about');
+  </script>
+</body>
+</html>
